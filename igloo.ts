@@ -18,7 +18,7 @@ class Texture {
      */
     constructor(gl : WebGLAnyContext, format : GLenum, wrap : GLint, filter : GLint, type : GLenum, internalFormat : GLint) {
         this.gl = gl;
-        var texture = this.texture = gl.createTexture();
+        const texture = this.texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
         wrap = wrap == null ? gl.CLAMP_TO_EDGE : wrap;
         filter = filter == null ? gl.LINEAR : filter;
@@ -35,8 +35,8 @@ class Texture {
      * @param {?number} [unit] active texture unit to bind
      * @returns {Texture}
      */
-    bind(unit?: number) : Texture{
-        var gl = this.gl;
+    bind(unit?: number) : Texture {
+        const gl = this.gl;
         if (unit != null && unit != undefined) {
             gl.activeTexture(gl.TEXTURE0 + unit);
         }
@@ -51,12 +51,12 @@ class Texture {
      * @returns {Igloo.Texture}
      */
     blank(width: any, height: any) : Texture {
-        var gl = this.gl;
+        const gl = this.gl;
         this.bind();
         gl.texImage2D(gl.TEXTURE_2D, 0, this.internalFormat, width, height,
                       0, this.format, this.type, null);
         return this;
-    };
+    }
 
     /**
      * Set the texture to a particular image.
@@ -68,7 +68,7 @@ class Texture {
     set(source?: Array<number> | ArrayBufferView | TexImageSource, 
         width?: number, height?: number) {
 
-        var gl = this.gl;
+        const gl = this.gl;
         this.bind();
         if (source instanceof Array) {
             if (this.type == gl.FLOAT) {
@@ -86,7 +86,7 @@ class Texture {
                           this.format, this.type, source as TexImageSource);
         }
         return this;
-    };
+    }
 
     /**
      * Set part of the texture to a particular image.
@@ -103,7 +103,7 @@ class Texture {
         width: number | null, 
         height: number | null) : Texture {
 
-        var gl = this.gl;
+        const gl = this.gl;
         this.bind();
         if (source instanceof Array) {
             if (this.type == gl.FLOAT) {
@@ -121,7 +121,7 @@ class Texture {
                              this.format, this.type, source as TexImageSource);
         }
         return this;
-    };
+    }
 
     /**
      * Copy part/all of the current framebuffer to this image.
@@ -133,10 +133,10 @@ class Texture {
      * @returns {Igloo.Texture}
      */
     copy(x: number, y: number, width: number, height: number) : Texture {
-        var gl = this.gl;
+        const gl = this.gl;
         gl.copyTexImage2D(gl.TEXTURE_2D, 0, this.internalFormat, x, y, width, height, 0);
         return this;
-    };
+    }
 }
 
 class Framebuffer {
@@ -176,13 +176,13 @@ class Framebuffer {
      * @param {number} i color attachment to use
      * @returns {Framebuffer}
      */
-    attach(texture: Texture, i: number=0): Framebuffer {
-        var gl = this.gl;
+    attach(texture: Texture, i=0): Framebuffer {
+        const gl = this.gl;
         if (i==0) this.bind();
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0+i,
                                 gl.TEXTURE_2D, texture.texture, 0);
         return this;
-    };
+    }
 
     /**
      * Attach a renderbuffer as a depth buffer for depth-tested rendering.
@@ -191,7 +191,7 @@ class Framebuffer {
      * @returns {Igloo.Framebuffer}
      */
     attachDepth(width: number, height: number) {
-        var gl = this.gl;
+        const gl = this.gl;
         this.bind();
         if (this.renderbuffer == null) {
             this.renderbuffer = gl.createRenderbuffer();
@@ -201,7 +201,7 @@ class Framebuffer {
                                        gl.RENDERBUFFER, this.renderbuffer);
         }
         return this;
-    };
+    }
     
 }
 
@@ -240,7 +240,7 @@ class Buffer {
      * @returns {Buffer} this
      */
     update(data: BufferSource, usage?: GLenum): Buffer {
-        var gl = this.gl;
+        const gl = this.gl;
         if (data instanceof Array) {
             data = new Float32Array(data);
         }
@@ -253,7 +253,7 @@ class Buffer {
             gl.bufferSubData(this.target, 0, data);
         }
         return this;
-    };
+    }
 }
 
 class Program {
@@ -271,7 +271,7 @@ class Program {
      */
     constructor(gl: WebGLAnyContext, vertex: string, fragment: string) {
         this.gl = gl;
-        var p = gl.createProgram();
+        const p = gl.createProgram();
         if (!p) throw new Error("Failed to create program");
         this.program = p;
 
@@ -279,7 +279,7 @@ class Program {
         gl.attachShader(p, this.makeShader(gl.FRAGMENT_SHADER, fragment));
         gl.linkProgram(p);
         if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
-            throw new Error(gl.getProgramInfoLog(p) || 'Failed to link program');
+            throw new Error(gl.getProgramInfoLog(p) || "Failed to link program");
         }
         this.vars = {};
     }
@@ -291,8 +291,8 @@ class Program {
      * @returns {WebGLShader}
      */
     makeShader(type: number, source: string): WebGLShader {
-        var gl = this.gl;
-        var shader = gl.createShader(type);
+        const gl = this.gl;
+        const shader = gl.createShader(type);
 
         if (!shader) throw new Error("Failed to create shader");
 
@@ -301,7 +301,7 @@ class Program {
         if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
             return shader;
         } else {
-            throw new Error(gl.getShaderInfoLog(shader) || 'Failed to compile shader');
+            throw new Error(gl.getShaderInfoLog(shader) || "Failed to compile shader");
         }
     }
 
@@ -312,7 +312,7 @@ class Program {
     use(): Program {
         this.gl.useProgram(this.program);
         return this;
-    };
+    }
 
     /**
      * Declare/set a uniform or set a uniform's data.
@@ -331,21 +331,21 @@ class Program {
             this.vars[name] = loc
         }
 
-        var v = this.vars[name];
+        const v = this.vars[name];
         if (Igloo.isArray(value)) {
             const arrVal = value as Array<number>;
-            var l = dim ? dim : arrVal.length;
-            var method = 'uniform' + l + (i ? 'i' : 'f') + 'v';
+            const l = dim ? dim : arrVal.length;
+            const method = "uniform" + l + (i ? "i" : "f") + "v";
             // hack to dynamically access method
             (this.gl as any)[method](v, arrVal);
-        } else if (typeof value === 'number' || typeof value === 'boolean') {
+        } else if (typeof value === "number" || typeof value === "boolean") {
             if (i) {
                 this.gl.uniform1i(v, value);
             } else {
                 this.gl.uniform1f(v, value);
             }
         } else {
-            throw new Error('Invalid uniform value: ' + value);
+            throw new Error("Invalid uniform value: " + value);
         }
         
         return this;
@@ -366,7 +366,7 @@ class Program {
             this.vars[name] = loc
         }
 
-        var method = 'uniformMatrix' + Math.sqrt(matrix.length) + 'fv';
+        const method = "uniformMatrix" + Math.sqrt(matrix.length) + "fv";
         (this.gl as any)[method](this.vars[name], Boolean(transpose), matrix);
         return this;
     }
@@ -390,7 +390,7 @@ class Program {
      * @returns {Program} this
      */
     attrib(name: string, value: Buffer, size: number, stride: number): Program {
-        var gl = this.gl;
+        const gl = this.gl;
         if (this.vars[name] == null) {
             this.vars[name] = gl.getAttribLocation(this.program, name);
         }
@@ -410,14 +410,14 @@ class Program {
      * @returns {Program} this
      */
     draw(mode: number, count: number, type?: GLenum): Program {
-        var gl = this.gl;
+        const gl = this.gl;
         if (type == null) {
             gl.drawArrays(mode, 0, count);
         } else {
             gl.drawElements(mode, count, type, 0);
         }
         if (gl.getError() !== gl.NO_ERROR) {
-            throw new Error('WebGL rendering error');
+            throw new Error("WebGL rendering error");
         }
         return this;
     }
@@ -427,10 +427,10 @@ class Program {
      * @returns {Program} this
      */
     disable(): Program {
-        for (var attrib in this.vars) {
-            var location = this.vars[attrib];
+        for (const attrib in this.vars) {
+            const location = this.vars[attrib];
             if (this.vars.hasOwnProperty(attrib)) {
-                if (typeof location === 'number') {
+                if (typeof location === "number") {
                     this.gl.disableVertexAttribArray(location);
                 }
             }
@@ -455,12 +455,12 @@ export class Igloo {
     /**
      * Wrap WebGLAnyContext objects with useful behavior.
      * @param {WebGLAnyContext|HTMLCanvasElement} gl
-     * @param {Object} [options] to pass to getContext()
+     * @param {Record<string, unknown>} [options] to pass to getContext()
      * @returns {Igloo}
      * @namespace
      */
-    constructor(gl:WebGLAnyContext|HTMLCanvasElement, options?:any) {
-        var canvas : HTMLCanvasElement;
+    constructor(gl:WebGLAnyContext|HTMLCanvasElement, options?:Record<string, unknown>) {
+        let canvas : HTMLCanvasElement;
         if (gl instanceof HTMLCanvasElement) {
             canvas = gl;
             const temp = Igloo.getContext(gl, options);
@@ -476,19 +476,19 @@ export class Igloo {
 
     /**
      * @param {HTMLCanvasElement} canvas
-     * @param {Object} [options] to pass to getContext()
+     * @param {Record<string, unknown>} [options] to pass to getContext()
      * @param {boolean} [noerror] If true, return null instead of throwing
      * @returns {?WebGLAnyContext} a WebGL rendering context.
      */
-    static getContext(canvas:HTMLCanvasElement, options:Object, noerror?:boolean) : WebGLAnyContext | null{
-        var gl : WebGLAnyContext | null;
+    static getContext(canvas:HTMLCanvasElement, options?:Record<string, unknown>, noerror?:boolean) : WebGLAnyContext | null {
+        let gl : WebGLAnyContext | null;
         try {
-            gl = canvas.getContext('webgl2', options || {}) as WebGLAnyContext;
+            gl = canvas.getContext("webgl2", options || {}) as WebGLAnyContext;
         } catch (e) {
             gl = null;
         }
         if (gl == null && !noerror) {
-            throw new Error('Could not create WebGL context.');
+            throw new Error("Could not create WebGL context.");
         } else {
             return gl;
         }
@@ -501,8 +501,8 @@ export class Igloo {
      * @returns {string}
      */
     static fetch = function(url: string | URL, callback?: ((arg0: string) => void)) : string {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, Boolean(callback));
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, Boolean(callback));
         if (callback != null) {
             xhr.onload = function() {
                 callback(xhr.responseText);
@@ -518,17 +518,17 @@ export class Igloo {
      */
     static looksLikeURL(string: string) : boolean {
         return /\s/.exec(string) == null;
-    };
+    }
 
     /**
      * @param {*} object
      * @returns {boolean} true if object is an array or typed array
      */
     static isArray(object : any) : boolean {
-        var name = Object.prototype.toString.apply(object, []),
+        const name = Object.prototype.toString.apply(object, []),
             re = / (Float(32|64)|Int(16|32|8)|Uint(16|32|8(Clamped)?))?Array]$/;
         return re.exec(name) != null;
-    };
+    }
 
     /**
      * Creates a program from a program configuration.
@@ -555,7 +555,7 @@ export class Igloo {
      * @returns {Buffer}
      */
     array(data?: BufferSource, usage?: GLenum): Buffer {
-        var gl = this.gl,
+        const gl = this.gl,
             buffer = new Igloo.Buffer(gl, gl.ARRAY_BUFFER);
         if (data != null) {
             buffer.update(data, usage == null ? gl.STATIC_DRAW : usage);
@@ -570,7 +570,7 @@ export class Igloo {
      * @returns {Buffer}
      */
     elements(data?: BufferSource, usage?: GLenum): Buffer {
-        var gl = this.gl,
+        const gl = this.gl,
             buffer = new Igloo.Buffer(gl, gl.ELEMENT_ARRAY_BUFFER);
         if (data != null) {
             buffer.update(data, usage == null ? gl.STATIC_DRAW : usage);
@@ -594,13 +594,13 @@ export class Igloo {
         filter: GLenum, 
         type: GLenum, 
         internalFormat: GLint, 
-        options: { type: 'ArrayBufferView' | 'TexImageSource'; 
+        options: { type: "ArrayBufferView" | "TexImageSource"; 
             width?: number; 
             height?: number; }): Texture {
 
-        var texture = new Igloo.Texture(this.gl, format, wrap, filter, type, internalFormat);
+        const texture = new Igloo.Texture(this.gl, format, wrap, filter, type, internalFormat);
         if (source != null) {
-            if (options && options.type === 'ArrayBufferView') {
+            if (options && options.type === "ArrayBufferView") {
                 texture.set(source, options.width, options.height);
             }
             else {
@@ -615,7 +615,7 @@ export class Igloo {
      * @returns {Framebuffer}
      */
     framebuffer(texture: Texture): Framebuffer {
-        var framebuffer = new Igloo.Framebuffer(this.gl);
+        const framebuffer = new Igloo.Framebuffer(this.gl);
         if (texture != null) framebuffer.attach(texture);
         return framebuffer;
     }
