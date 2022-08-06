@@ -1,4 +1,4 @@
-# IglooTS WebGL\WEbGl2
+# ts-igloo
 
 A TypeScript Port of [igloo.js](https://github.com/skeeto/igloojs) with better webGL2 support
 
