@@ -17,6 +17,13 @@ enumerations, occasionally you may need to do something that Igloo
 doesn't cover, and you still need to understand the intricacies of the
 OpenGL API.
 
+## Install
+
+
+```
+npm install ts-igloo
+```
+
 ## Example Usage
 
 ```js
