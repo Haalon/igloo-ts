@@ -1,3 +1,5 @@
+import { Igloo } from "../dist/igloo.js"
+
 function $(s) {
     /* dumb jQuery polyfill */
     return [document.querySelector(s)];

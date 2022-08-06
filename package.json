@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "eslint": "^8.21.0",
+    "typescript": "^4.7.4"
+  },
+  "name": "igloo-ts",
+  "description": "Igloo is a minimal, fluent, object-oriented wrapper API for WebGL. The\r idea is to maintain WebGL's low-level graphics access but fit it to\r JavaScript idioms and simplify the API. It's designed to play *very*\r well with [glMatrix](http://glmatrix.net/), though its use is not\r strictly required.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint '*.ts'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haalon/igloo-ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Haalon/igloo-ts/issues"
+  },
+  "homepage": "https://github.com/Haalon/igloo-ts#readme"
+}
