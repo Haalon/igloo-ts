@@ -7,7 +7,7 @@
   },
   "name": "ts-igloo",
   "description": "TS port of the minimalist Igloo library. With Webgl2 support",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "./dist/igloo.js",
   "scripts": {
     "build": "tsc",
