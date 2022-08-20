@@ -1,4 +1,4 @@
-import { Igloo } from "../dist/igloo.js"
+import { Igloo } from "ts-igloo"
 
 function $(s) {
     /* dumb jQuery polyfill */

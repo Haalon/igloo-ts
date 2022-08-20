@@ -1,6 +1,6 @@
 type WebGLAnyContext = WebGLRenderingContext | WebGL2RenderingContext
 
-class Texture {
+export class Texture {
     gl: WebGLAnyContext;
     texture: WebGLTexture | null;
     format: GLenum;
@@ -139,7 +139,7 @@ class Texture {
     }
 }
 
-class Framebuffer {
+export class Framebuffer {
     gl: WebGLAnyContext;
     framebuffer: WebGLFramebuffer | null;
     renderbuffer: WebGLRenderbuffer | null;
@@ -206,7 +206,7 @@ class Framebuffer {
 }
 
 
-class Buffer {
+export class Buffer {
     gl: WebGLAnyContext;
     buffer: WebGLBuffer | null;
     target: number;
@@ -256,7 +256,7 @@ class Buffer {
     }
 }
 
-class Program {
+export class Program {
     gl: WebGLAnyContext;
     program: WebGLProgram;
     vars: {[index: string]: WebGLUniformLocation};
