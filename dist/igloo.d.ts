@@ -1,5 +1,5 @@
 declare type WebGLAnyContext = WebGLRenderingContext | WebGL2RenderingContext;
-declare class Texture {
+export declare class Texture {
     gl: WebGLAnyContext;
     texture: WebGLTexture | null;
     format: GLenum;
@@ -57,7 +57,7 @@ declare class Texture {
      */
     copy(x: number, y: number, width: number, height: number): Texture;
 }
-declare class Framebuffer {
+export declare class Framebuffer {
     gl: WebGLAnyContext;
     framebuffer: WebGLFramebuffer | null;
     renderbuffer: WebGLRenderbuffer | null;
@@ -89,7 +89,7 @@ declare class Framebuffer {
      */
     attachDepth(width: number, height: number): this;
 }
-declare class Buffer {
+export declare class Buffer {
     gl: WebGLAnyContext;
     buffer: WebGLBuffer | null;
     target: number;
@@ -114,7 +114,7 @@ declare class Buffer {
      */
     update(data: BufferSource, usage?: GLenum): Buffer;
 }
-declare class Program {
+export declare class Program {
     gl: WebGLAnyContext;
     program: WebGLProgram;
     vars: {
@@ -201,18 +201,18 @@ export declare class Igloo {
     /**
      * Wrap WebGLAnyContext objects with useful behavior.
      * @param {WebGLAnyContext|HTMLCanvasElement} gl
-     * @param {Object} [options] to pass to getContext()
+     * @param {Record<string, unknown>} [options] to pass to getContext()
      * @returns {Igloo}
      * @namespace
      */
-    constructor(gl: WebGLAnyContext | HTMLCanvasElement, options?: any);
+    constructor(gl: WebGLAnyContext | HTMLCanvasElement, options?: Record<string, unknown>);
     /**
      * @param {HTMLCanvasElement} canvas
-     * @param {Object} [options] to pass to getContext()
+     * @param {Record<string, unknown>} [options] to pass to getContext()
      * @param {boolean} [noerror] If true, return null instead of throwing
      * @returns {?WebGLAnyContext} a WebGL rendering context.
      */
-    static getContext(canvas: HTMLCanvasElement, options: Object, noerror?: boolean): WebGLAnyContext | null;
+    static getContext(canvas: HTMLCanvasElement, options?: Record<string, unknown>, noerror?: boolean): WebGLAnyContext | null;
     /**
      * Asynchronously or synchronously fetch data from the server.
      * @param {string} url
@@ -264,7 +264,7 @@ export declare class Igloo {
      * @returns {Texture}
      */
     texture(source: ArrayBufferView | TexImageSource | number[] | null, format: GLenum, wrap: GLenum, filter: GLenum, type: GLenum, internalFormat: GLint, options: {
-        type: 'ArrayBufferView' | 'TexImageSource';
+        type: "ArrayBufferView" | "TexImageSource";
         width?: number;
         height?: number;
     }): Texture;
